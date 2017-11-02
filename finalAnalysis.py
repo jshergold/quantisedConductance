@@ -74,12 +74,13 @@ def convertsave(filename, csvname, pdfname, ydown, yup, xdown, xup):
 	data = np.genfromtxt(filename, delimiter = "\n")
 	data = (data*C1)/(data + C2) #Converts voltages into conductances via calibration curve.
 	data /= G0 #Converts from Siemens to units of G0.
-	plt.yticks(np.arange(np.floor(min(data)), np.ceil(max(data)) + 1, 1), fontsize = 14)
-	plt.xticks(fontsize = 14)
+	plt.yticks(np.arange(np.floor(min(data)), np.ceil(max(data)) + 1, 1), fontsize = 17)
+	plt.xticks(fontsize = 17)
 	plt.xlim(xdown, xup)
 	mpl.rc('font', family = 'Times New Roman') #Sets font in figures to Times New Roman, in line with most research papers.
-	plt.ylabel(r"Conductance ($G_0$)", fontsize = 14)
-	plt.xlabel(r"Time (arb. units)", fontsize = 14)
+	plt.ylabel(r"Conductance ($G_0$)", fontsize = 20)
+	plt.xlabel(r"Time (arb. units)", fontsize = 20)
+	plt.tight_layout()
 	plt.grid()
 	plt.ylim(ydown, yup)
 	plt.plot(data)
@@ -116,14 +117,16 @@ def histline(data):
 	sd = np.std(data)
 	count = data.size
 	binwidth = 3.49 * sd * np.power(count, -1/3) #Uses optimal bin size to avoid bias.
-	plt.xticks(np.arange(np.floor(min(data)), np.ceil(max(data)), 1))
+	plt.xticks(np.arange(np.floor(min(data)), np.ceil(max(data)), 1), fontsize = 16)
+	plt.yticks(fontsize = 16)
 	plt.grid()
-	plt.xlabel(r"Conductance ($G_0$)")
-	plt.ylabel(r"Frequency (Normalised)")
+	plt.xlabel(r"Conductance ($G_0$)", fontsize = 20)
+	plt.ylabel(r"Frequency (Normalised)", fontsize = 20)
 	mpl.rc('font', family = "Times New Roman")
 	y, binEdges = np.histogram(data, bins=np.arange(min(data), max(data) + binwidth, binwidth), normed = True)
 	bincentres = 0.5*(binEdges[1:]+binEdges[:-1])
+	plt.tight_layout()
 	pyl.plot(bincentres, y, '-')
 	#Uncomment below as necessary to either save or preview the line histogram.
-	#pyl.savefig(FILEPATH AND NAME)
+	#plt.savefig(FILEPATH AND NAME)
 	#pyl.show()
